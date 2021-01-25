@@ -409,6 +409,7 @@ class CodingStyleChecker
 
   def check_too_many_else_if
     count = 0
+    count_if = 0
     line_nb = 1
     function_start = -1
     @file.each_line do |line|
@@ -418,15 +419,18 @@ class CodingStyleChecker
                 next;
             end
             if line =~ /(^[a-zA-Z0-9]*).\s*::\s*/
-               if count >= 2
+               if count >= 3 || count_if >= 2
                     msg_brackets = '[' + @file_path + ':' + line_nb.to_s + ']'
                     msg_error = " C1 - Nested If statements are stricly forbidden.".bold
-                    $minor += 1
+                    $major += 1
                     puts(msg_brackets.bold.red + msg_error)
                end
                function_start = -1
             else
                 if line =~ /if/
+                    count_if += 1
+                end
+                if line =~ /(?!\|)\s*\|\s*(?!\|)/ 
                     count += 1
                 end
             end
@@ -434,13 +438,14 @@ class CodingStyleChecker
             if line =~ /(^[a-zA-Z0-9]*).\s*::\s*/
                 function_start = line_nb
                 count = 0
+                count_if = 0
             end
         end
         line_nb += 1
     end
-    if count >= 2
+    if count >= 3 || count_if >= 2
         msg_brackets = '[' + @file_path + ':' + line_nb.to_s + ']'
-        msg_error = " F2 - Nested If statements are stricly forbidden.".bold
+        msg_error = " C1 - Nested If statements are stricly forbidden.".bold
         $major += 1
         puts(msg_brackets.bold.red + msg_error)
     end
