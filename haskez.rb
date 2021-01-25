@@ -420,7 +420,7 @@ class CodingStyleChecker
             end
             if line =~ /(^[a-zA-Z0-9]*).\s*::\s*/
                if count >= 3 || count_if >= 2
-                    msg_brackets = '[' + @file_path + ':' + line_nb.to_s + ']'
+                    msg_brackets = '[' + @file_path + ':' + function_start.to_s + ']'
                     msg_error = " C1 - Nested If statements are stricly forbidden.".bold
                     $major += 1
                     puts(msg_brackets.bold.red + msg_error)
@@ -444,7 +444,7 @@ class CodingStyleChecker
         line_nb += 1
     end
     if count >= 3 || count_if >= 2
-        msg_brackets = '[' + @file_path + ':' + line_nb.to_s + ']'
+        msg_brackets = '[' + @file_path + ':' + function_start.to_s + ']'
         msg_error = " C1 - Nested If statements are stricly forbidden.".bold
         $major += 1
         puts(msg_brackets.bold.red + msg_error)
