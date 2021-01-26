@@ -424,9 +424,6 @@ class CodingStyleChecker
                 if line =~ /if/
                     count_if += 1
                 end
-                if line =~ /(?!\|)\s*\|\s*(?!\|)/ 
-                    count += 1
-                end
             end
         else
             if line =~ /(^[a-zA-Z0-9]*).\s*::\s*/
