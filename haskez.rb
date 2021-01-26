@@ -352,7 +352,7 @@ class CodingStyleChecker
         next;
       end
       line[0] = '' while [' ', "\t"].include?(line[0])
-      if line =~ /^main*/ && line !~ /^main\s*::\s*IO\s*\(\)/
+      if line =~ /^main\s*::/ && line !~ /^main\s*::\s*IO\s*\(\)/
         msg_brackets = '[' + @file_path + ':' + line_nb.to_s + ']'
         msg_error = " T1 - All top level bindings must have an accompanying type signature.".bold
         $major += 1
@@ -449,7 +449,7 @@ class CodingStyleChecker
         line_nb += 1;
         next;
       end
-      if line =~ /==\s*\[\s*\]/ || line =~ /\s*==\s*\d/
+      if line =~ /==\s*\[\s*\]/ || line =~ /\s*==\s*(\d|'*'|"*"|-\s*\d)/
         msg_brackets = '[' + @file_path + ':' + line_nb.to_s + ']'
         msg_error = " C2 - Guards which can be expressed as pattern matchings must be expressed as such.".bold
         $major += 1
